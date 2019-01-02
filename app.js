@@ -17,7 +17,7 @@ nunjucks.configure('templates', {
 /** routes */
 
 const authRoutes = require('./routes/auth');
-const studentRoutes = require('.routes/students');
+const studentRoutes = require('./routes/students');
 
 app.use('/', authRoutes);
 app.use('/students', studentRoutes);

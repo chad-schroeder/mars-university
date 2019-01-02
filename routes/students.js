@@ -11,11 +11,21 @@ const router = new Router();
  * => {student: [{id, username, first_name, last_name, avatar, last_login_at}, ...]}
  **/
 
-router.get('/students', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const results = await Student.all();
-    return res.json(results);
-    // return res.render('../templates/students.html');
+    const students = await Student.findAll();
+    return res.json({ students });
+  } catch (error) {
+    return next(error);
+  }
+});
+
+/** GET /[username] => {student: student} */
+
+router.get('/:username', async (req, res, next) => {
+  try {
+    const student = await Student.findOne(req.params.username);
+    return res.json({ student });
   } catch (error) {
     return next(error);
   }
