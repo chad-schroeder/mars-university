@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Students
+{% endblock %}
+
+{% block content %}
+
+<h1>Students</h1>
+
+<!-- 
+  {% if students|length === 0 %}
+  <h3>Sorry, no students found</h3>
+  {% else %} 
+-->
+
+<ul>
+  {% for student in students %}
+    <li>{{ student }}</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
