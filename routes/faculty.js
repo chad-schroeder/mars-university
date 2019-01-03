@@ -1,27 +1,27 @@
-/** Routes for students. */
+/** Routes for faculty. */
 
 const Router = require('express').Router;
-const Course = require('../models/course');
+const Faculty = require('../models/faculty');
 
 const router = new Router();
 
-/** GET / get all courses. */
+/** GET / get all faculty members. */
 
 router.get('/', async (req, res, next) => {
   try {
-    const courses = await Course.all();
-    return res.json({ courses });
+    let faculty = await Faculty.all();
+    return res.json({ faculty });
   } catch (error) {
     return next(error);
   }
 });
 
-/** GET /:id => {course: course} */
+/** GET /:id => { faculty } */
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const course = await Course.get(req.params.id);
-    return res.json({ course });
+    let faculty = await Faculty.get(req.params.id);
+    return res.json({ faculty });
   } catch (error) {
     return next(error);
   }
