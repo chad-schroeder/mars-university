@@ -18,9 +18,11 @@ nunjucks.configure('templates', {
 
 const authRoutes = require('./routes/auth');
 const studentRoutes = require('./routes/students');
+const courseRoutes = require('./routes/courses');
 
 app.use('/', authRoutes);
 app.use('/students', studentRoutes);
+app.use('/courses', courseRoutes);
 
 /** 404 handler */
 

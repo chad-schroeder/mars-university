@@ -35,9 +35,12 @@ router.get('/:id', async (req, res, next) => {
 router.patch('/:id', async (req, res, next) => {
   try {
     // throw error if attempting to change id
-    if ('id' in req.body) {
+    if ('id' in req.body || 'avatar' in req.body) {
       return next(
-        new APIError(400, 'You are not allowed to change the id property.')
+        new APIError(
+          400,
+          'You are not allowed to change the id or avatar properties.'
+        )
       );
     }
     const student = await Student.update(req.params.id, req.body);

@@ -30,8 +30,8 @@ const DDL = `
   CREATE TABLE faculty(
     id serial PRIMARY KEY,
     first_name text NOT NULL,
-    middle_name text,
-    last_name text DEFAULT 'N/A',
+    middle_name text DEFAULT NULL,
+    last_name text DEFAULT NULL,
     species_id integer DEFAULT 1 REFERENCES species (id),
     avatar text DEFAULT null
   );
@@ -56,9 +56,9 @@ const DDL = `
   );
 
   INSERT INTO species (id, name) VALUES (0, 'Indeterminate');
-  INSERT INTO species (id, name) VALUES (1, 1);
+  INSERT INTO species (id, name) VALUES (1, 'Human');
   INSERT INTO species (id, name) VALUES (2, 'Mutant Human');
-  INSERT INTO species (id, name) VALUES (3, 3);
+  INSERT INTO species (id, name) VALUES (3, 'Robot');
   INSERT INTO species (id, name) VALUES (4, 'Decapodian');
   INSERT INTO species (id, name) VALUES (5, 'Neptunian');
   INSERT INTO species (id, name) VALUES (6, 'Monkey');
@@ -67,28 +67,34 @@ const DDL = `
   INSERT INTO species (id, name) VALUES (9, 'Omicronian');
   INSERT INTO species (id, name) VALUES (10, 'Nibblonian');
 
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('John', 'A.', 'Zoidberg', 4, 'zoidberg');
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('Zapp', '', 'Brannigan', 1, 'zapp');
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('Ogden', '', 'Wernstrom', 1, 'wernstrom');
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('William', '', 'Shatner', 1, 'shatner');
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('Leonard', '', 'Nimoy', 1, 'nimoy');
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('Beelzebot', '', '', 3, 'beelzebot');
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('Richard', 'M.', 'Nixon', 1, 'nixon');
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('Morbo', '', '', 0, 'morbo');
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('Lrrr', '', '', 9, 'lrrr');
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('Hubert', 'J.', 'Farnsworth', 1, 'farnsworth');
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('Calculon', '', '', 3, 'calculon');
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('Hedonismbot', '', '', 3, 'hedonismbot');
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('Bender', 'Bending', 'Rodriguez', 3, 'bender');
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) VALUES ('Hermes', '', 'Conrad', 1, 'hermes');
+  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) 
+    VALUES ('Turanga', null, 'Leela', 2, 'leela'),
+            ('John', 'A.', 'Zoidberg', 4, 'zoidberg'),
+            ('Zapp', null, 'Brannigan', 1, 'zapp'),
+            ('Ogden', null, 'Wernstrom', 1, 'wernstrom'),
+            ('William', null, 'Shatner', 1, 'shatner'),
+            ('Leonard', null, 'Nimoy', 1, 'nimoy'),
+            ('Beelzebot', null, null, 3, 'beelzebot'),
+            ('Richard', 'M.', 'Nixon', 1, 'nixon'),
+            ('Lrrr', null, null, 9, 'lrrr'),
+            ('Hubert', 'J.', 'Farnsworth', 1, 'farnsworth'),
+            ('Calculon', null, null, 3, 'calculon'),
+            ('Hedonismbot', null, null, 3, 'hedonismbot'),
+            ('Bender', 'Bending', 'Rodriguez', 3, 'bender'),
+            ('Hermes', null, 'Conrad', 1, 'hermes'),
+            ('Al', null, 'Gore', 1, 'gore'),
+            ('Hypnotoad', null, null, 7, 'hypnotoad'),
+            ('Mom', null, null, 1, 'mom'),
+            ('URL', null, null, 3, 'url');
 
   INSERT INTO sections (code, name) VALUES ('polit', 'politics');
   INSERT INTO sections (code, name) VALUES ('histo', 'history');
   INSERT INTO sections (code, name) VALUES ('robot', 'robotics');
 
-  INSERT INTO courses (title, description, section_code, credits) VALUES ('Robotic Freedom Movement', 'Robotic Freedom Movement', 'robot', 300);
-  INSERT INTO courses (title, description, section_code, credits) VALUES ('Interplanetary Bombardment', 'Interplanetary Bombardment', 'polit', 400);
-  INSERT INTO courses (title, description, section_code, credits) VALUES ('The 20th Century', 'Learn about events that shaped Earth''s modern day', 'histo', 300);
+  INSERT INTO courses (title, description, section_code, credits) 
+    VALUES ('Robotic Freedom Movement', 'Robotic Freedom Movement', 'robot', 300),
+          ('Interplanetary Bombardment', 'Interplanetary Bombardment', 'polit', 400),
+          ('The 20th Century', 'Learn about events that shaped Earth''s modern day', 'histo', 300);
 `;
 
 async function seedData() {
@@ -96,15 +102,32 @@ async function seedData() {
     // populate tables
     await db.query(DDL);
 
-    // generate students
+    // generate a hashed password for all students
+    const hashedPassword = await bcrypt.hash('password', BCRYPT_WORK_ROUNDS);
 
-    // generate a hashed password
-    const hashedPassword = await bcrypt.hash('fry', BCRYPT_WORK_ROUNDS);
-
-    // push 'fry' student to the database
+    // add 'fry' student to the database
     await db.query(
-      `INSERT INTO students (password, first_name, middle_name, last_name, avatar, last_login_at)
-                  VALUES ($1, 'Philip', 'J', 'Fry', 'fry', current_timestamp)`,
+      `INSERT INTO students (password, first_name, middle_name, last_name, avatar, species_id, last_login_at)
+                  VALUES ($1, 'Philip', 'J', 'Fry', 'fry', 1, current_timestamp),
+                         ($1, 'Amy', null, 'Wong', 'amy', 1, current_timestamp),
+                         ($1, 'Brain', null, null, 'brain', 0, current_timestamp),
+                         ($1, 'Ethan', 'Bubblegum', 'Tate', 'bubblegum', 1,current_timestamp),
+                         ($1, 'Colleen', 'O.', 'Hallahan', 'colleen', 1, current_timestamp),
+                         ($1, 'Cubert', 'J.', 'Farnsworth', 'cubert', 1, current_timestamp),
+                         ($1, 'Fat-bot', null, null, 'fat', 3, current_timestamp),
+                         ($1, 'Gunther', null, null, 'gunther', 6, current_timestamp),
+                         ($1, 'Kif', null, 'Kroker', 'kif', 8, current_timestamp),
+                         ($1, 'Malfunctioning Eddie', null, null, 'malfunctioning', 3, current_timestamp),
+                         ($1, 'Morbo', null, null, 'morbo', 0, current_timestamp),
+                         ($1, 'Nibbler', null, null, 'nibbler', 10, current_timestamp),
+                         ($1, 'Scruffy', null, null, 'scruffy', 0, current_timestamp),
+                         ($1, 'Bigfoot', null, null, 'bigfoot', 0, current_timestamp),
+                         ($1, 'Countess', 'de la', 'Roca', 'countess', 3, current_timestamp),
+                         ($1, 'Elzar', null, null, 'elzar', 5, current_timestamp),
+                         ($1, 'iZac', null, null, 'izac', 3, current_timestamp),
+                         ($1, 'Neutral', null, null, 'neutral', 1, current_timestamp),
+                         ($1, 'Robot Fry', null, null, 'robo', 3, current_timestamp),
+                         ($1, 'Walt', null, null, 'walt', 1, current_timestamp)`,
       [hashedPassword]
     );
   } catch (err) {
