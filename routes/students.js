@@ -13,7 +13,7 @@ const router = new Router();
 router.get('/', async (req, res, next) => {
   try {
     const students = await Student.all();
-    return res.json({ students });
+    return res.render('../templates/students/index.html', { students });
   } catch (error) {
     return next(error);
   }

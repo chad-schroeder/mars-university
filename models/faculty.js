@@ -15,14 +15,14 @@ class Faculty {
   /** Get all faculty members. */
 
   static async all() {
-    let results = await db.query(`SELECT * FROM faculty`);
+    const results = await db.query(`SELECT * FROM faculty`);
     return results.rows;
   }
 
   /** Find a faculty member. */
 
   static async get(id) {
-    let result = await db.query(`SELECT * FROM faculty WHERE id=$1`, [id]);
+    const result = await db.query(`SELECT * FROM faculty WHERE id=$1`, [id]);
     return result.rows[0];
   }
 }

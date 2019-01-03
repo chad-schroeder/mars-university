@@ -9,8 +9,7 @@ const router = new Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    let faculty = await Faculty.all();
-    console.log(faculty);
+    const faculty = await Faculty.all();
     return res.render('../templates/faculty/index.html', { faculty });
   } catch (error) {
     return next(error);
@@ -21,7 +20,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    let faculty = await Faculty.get(req.params.id);
+    const faculty = await Faculty.get(req.params.id);
     return res.json({ faculty });
   } catch (error) {
     return next(error);

@@ -8,12 +8,13 @@
   <h1>Faculty</h1>
 
   {% if faculty %}
-  <div>
+  <div class="d-flex flex-wrap">
     {% for member in faculty %} 
-      <div class="media">
-        <img src="/images/avatars/{{ member.avatar }}.png" class="mr-3" width="128" alt="Avatar for {{ member.avatar }}">
+      <div class="media" style="margin: 20px; width: calc(25% - 40px);">
+        <img src="/images/avatars/{{ member.avatar }}.png" class="mr-3" width="90" alt="Avatar for {{ member.avatar }}">
         <div class="media-body">
-          <h5 class="mt-0">{{ member.first_name}} {{ member.last_name }}</h5>
+          <h5 class="m-0">{{ member.first_name}} {{ member.last_name }}</h5>
+          <p class="lead">{{ member.department }}</p>
           Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
         </div>
       </div>

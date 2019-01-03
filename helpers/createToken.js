@@ -3,12 +3,11 @@
 const jwt = require('jsonwebtoken');
 const { SECRET } = require('../config');
 
-/** return signed JWT from user data. */
+/** return signed JWT from student data. */
 
-function createToken(user) {
+function createToken(student) {
   let payload = {
-    username: user.username,
-    is_admin: user.is_admin
+    username: student.username
   };
 
   return jwt.sign(payload, SECRET);

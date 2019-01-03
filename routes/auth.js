@@ -2,6 +2,7 @@
 
 const Router = require('express').Router;
 const createToken = require('../helpers/createToken');
+const Student = require('../models/student');
 
 const router = new Router();
 
@@ -21,8 +22,10 @@ router.get('/login', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
   try {
-    const user = await user.authenticate(req.body);
-    const token = createToken(user);
+    const student = await Student.authenticate(req.body);
+    console.log(student);
+    const token = createToken(student);
+    return res.json({ token });
   } catch (error) {
     return next(error);
   }

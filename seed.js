@@ -18,6 +18,7 @@ const DDL = `
 
   CREATE TABLE students(
     id serial PRIMARY KEY,
+    username text NOT NULL UNIQUE,
     password text NOT NULL,
     first_name text NOT NULL,
     last_name text,
@@ -69,7 +70,13 @@ const DDL = `
   INSERT INTO species (id, name) VALUES (10, 'Nibblonian');
 
   INSERT INTO faculty (first_name, middle_name, last_name, department, species_id, avatar) 
-    VALUES ('Turanga', null, 'Leela', 'President', 2, 'leela'),
+    VALUES ('Grand Priestess', null, null, 'President', 8, 'grand'),
+            ('Inez', '', 'Wong', 'Board of Directors', 1, 'inez'),
+            ('Leo', '', 'Wong', 'Board of Directors', 1, 'leo'),
+            ('Robot Elder', null, null, 'Board of Directors', 3, 'elder'),
+            ('Countess', 'de la', 'Roca', 'Board of Directors', 3, 'countess'),
+            ('Scruffy', null, null, 'Support Staff', 0, 'scruffy'),
+            ('Hypnotoad', null, null, 'Support Staff', 7, 'hypnotoad'),
             ('John', 'A.', 'Zoidberg', 'Sciences', 4, 'zoidberg'),
             ('Zapp', null, 'Brannigan', 'Criminal Justice', 1, 'zapp'),
             ('Ogden', null, 'Wernstrom', 'Sciences', 1, 'wernstrom'),
@@ -80,11 +87,11 @@ const DDL = `
             ('Lrrr', null, null, 'Politics', 9, 'lrrr'),
             ('Hubert', 'J.', 'Farnsworth', 'Sciences', 1, 'farnsworth'),
             ('Calculon', null, null, 'Arts', 3, 'calculon'),
+            ('iZac', null, null, 'Arts', 3, 'izac'),
             ('Hedonismbot', null, null, 'Robotics', 3, 'hedonismbot'),
             ('Bender', 'Bending', 'Rodriguez', 'Robotics', 3, 'bender'),
             ('Hermes', null, 'Conrad', 'Business', 1, 'hermes'),
             ('Al', null, 'Gore', 'Sciences', 1, 'gore'),
-            ('Hypnotoad', null, null, 'Supporting Staff', 7, 'hypnotoad'),
             ('Mom', null, null, 'Business', 1, 'mom'),
             ('URL', null, null, 'Criminal Justice', 3, 'url');
 
@@ -108,27 +115,31 @@ async function seedData() {
 
     // add 'fry' student to the database
     await db.query(
-      `INSERT INTO students (password, first_name, middle_name, last_name, avatar, species_id, last_login_at)
-                  VALUES ($1, 'Philip', 'J', 'Fry', 'fry', 1, current_timestamp),
-                         ($1, 'Amy', null, 'Wong', 'amy', 1, current_timestamp),
-                         ($1, 'Brain', null, null, 'brain', 0, current_timestamp),
-                         ($1, 'Ethan', 'Bubblegum', 'Tate', 'bubblegum', 1,current_timestamp),
-                         ($1, 'Colleen', 'O.', 'Hallahan', 'colleen', 1, current_timestamp),
-                         ($1, 'Cubert', 'J.', 'Farnsworth', 'cubert', 1, current_timestamp),
-                         ($1, 'Fat-bot', null, null, 'fat', 3, current_timestamp),
-                         ($1, 'Gunther', null, null, 'gunther', 6, current_timestamp),
-                         ($1, 'Kif', null, 'Kroker', 'kif', 8, current_timestamp),
-                         ($1, 'Malfunctioning Eddie', null, null, 'malfunctioning', 3, current_timestamp),
-                         ($1, 'Morbo', null, null, 'morbo', 0, current_timestamp),
-                         ($1, 'Nibbler', null, null, 'nibbler', 10, current_timestamp),
-                         ($1, 'Scruffy', null, null, 'scruffy', 0, current_timestamp),
-                         ($1, 'Bigfoot', null, null, 'bigfoot', 0, current_timestamp),
-                         ($1, 'Countess', 'de la', 'Roca', 'countess', 3, current_timestamp),
-                         ($1, 'Elzar', null, null, 'elzar', 5, current_timestamp),
-                         ($1, 'iZac', null, null, 'izac', 3, current_timestamp),
-                         ($1, 'Neutral', null, null, 'neutral', 1, current_timestamp),
-                         ($1, 'Robot Fry', null, null, 'robo', 3, current_timestamp),
-                         ($1, 'Walt', null, null, 'walt', 1, current_timestamp)`,
+      `INSERT INTO students (username, password, first_name, middle_name, last_name, avatar, species_id, last_login_at)
+                  VALUES ('fry', $1, 'Philip', 'J', 'Fry', 'fry', 1, current_timestamp),
+                         ('leela', $1, 'Turanga', null, 'Leela', 'leela', 2, current_timestamp),
+                         ('amy', $1, 'Amy', null, 'Wong', 'amy', 1, current_timestamp),
+                         ('ethan', $1, 'Ethan', 'Bubblegum', 'Tate', 'bubblegum', 1,current_timestamp),
+                         ('kif', $1, 'Kif', null, 'Kroker', 'kif', 8, current_timestamp),
+                         ('morbo', $1, 'Morbo', null, null, 'morbo', 0, current_timestamp),
+                         ('nibbler', $1, 'Nibbler', null, null, 'nibbler', 10, current_timestamp),
+                         ('colleen', $1, 'Colleen', 'O.', 'Hallahan', 'colleen', 1, current_timestamp),
+                         ('cubert', $1, 'Cubert', 'J.', 'Farnsworth', 'cubert', 1, current_timestamp),
+                         ('gunther', $1, 'Gunther', null, null, 'gunther', 6, current_timestamp),
+                         ('lucy', $1, 'Lucy', '', 'Liu', 'lucy', 1, current_timestamp),
+                         ('fat-bot', $1, 'Fat-bot', null, null, 'fat', 3, current_timestamp),
+                         ('malfunctioning eddie', $1, 'Malfunctioning Eddie', null, null, 'malfunctioning', 3, current_timestamp),
+                         ('brain', $1, 'Brain', null, null, 'brain', 0, current_timestamp),
+                         ('jonathan', $1, 'Jonathan', '', 'Frakes', 'jonathan', 1, current_timestamp),
+                         ('nichelle', $1, 'Nichelle', '', 'Nichols', 'nichelle', 1, current_timestamp),
+                         ('george', $1, 'George', '', 'Takei', 'george', 1, current_timestamp),
+                         ('roberto', $1, 'Roberto', null, null, 'roberto', 3, current_timestamp),
+                         ('bigfoot', $1, 'Bigfoot', null, null, 'bigfoot', 0, current_timestamp),
+                         ('elzar', $1, 'Elzar', null, null, 'elzar', 5, current_timestamp),
+                         ('neutral', $1, 'Neutral', null, null, 'neutral', 1, current_timestamp),
+                         ('robot fry', $1, 'Robot Fry', null, null, 'robo', 3, current_timestamp),
+                         ('larry', $1, 'Larry', null, null, 'larry', 1, current_timestamp),
+                         ('walt', $1, 'Walt', null, null, 'walt', 1, current_timestamp)`,
       [hashedPassword]
     );
   } catch (err) {

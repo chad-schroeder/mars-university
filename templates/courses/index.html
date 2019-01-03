@@ -1,28 +1,27 @@
 {% extends 'base.html' %}
 
 {% block title %}
-  Students
+  Courses
 {% endblock %}
 
 {% block content %}
 
-<h1>Students</h1>
+<h1>Courses</h1>
 
-{% if students %}
+{% if courses %}
   <div class="d-flex flex-wrap">
-    {% for student in students %}
+    {% for course in courses %}
     <div class="media" style="margin: 20px; width: calc(25% - 40px);">
-        <img src="/images/avatars/{{ student.avatar }}.png" class="mr-3" width="90" alt="Avatar for {{ student.avatar }}">
         <div class="media-body">
-          <h5 class="m-0">{{ student.first_name}} {{ student.last_name }}</h5>
-          <p class="lead">{{ student.species }}</p>
+          <h5 class="m-0">{{ course.title}}</h5>
+          <p class="lead"></p>
           Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
         </div>
     </div>
     {% endfor %}
   </div>
 {% else %}
-  <p>There don't appear to be any students?!</p>
+  <p>There don't appear to be any courses?!</p>
 {% endif %}
 
 {% endblock %}

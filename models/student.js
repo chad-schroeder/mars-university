@@ -13,15 +13,42 @@ class Student {
     this.avatar = avatar;
   }
 
+  /** authenticate student */
+
+  static async authenticate(data) {
+    const result = await db.query(
+      `SELECT username,
+        password
+        FROM students
+        WHERE username = $1
+    `,
+      [data.username]
+    );
+
+    const student = result.rows[0];
+
+    if (student) {
+      // compare hashed password to a new hash from password
+      const isValid = await bcrypt.compare(data.password, student.password);
+      if (isValid) {
+        return student;
+      }
+    }
+
+    const invalidPass = new Error('Invalid Username or Password');
+    invalidPass.status = 401;
+    throw invalidPass;
+  }
+
   /** find all students. */
 
   static async all() {
-    let result = await db.query(`
-      SELECT 
-        s.id,
+    const result = await db.query(`
+      SELECT s.id,
         first_name,
         middle_name,
         last_name,
+        avatar,
         sp.name AS "species"
       FROM students s
       JOIN species sp ON sp.id = s.species_id
@@ -33,9 +60,8 @@ class Student {
   /** find a student by id. */
 
   static async get(id) {
-    let result = await db.query(
-      `SELECT 
-          s.id,
+    const result = await db.query(
+      `SELECT s.id,
           first_name as "first name", 
           middle_name as "middle name",
           last_name as "last name",
