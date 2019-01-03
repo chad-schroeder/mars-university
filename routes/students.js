@@ -4,6 +4,7 @@ const Router = require('express').Router;
 const APIError = require('../helpers/APIError');
 // const createToken = require('../helpers/createToken');
 const Student = require('../models/student');
+const { ensureCorrectUser } = require('../middleware/auth');
 
 const router = new Router();
 
@@ -21,9 +22,9 @@ router.get('/', async (req, res, next) => {
 
 /** GET /:id => {student} */
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:username', async (req, res, next) => {
   try {
-    const student = await Student.get(req.params.id);
+    const student = await Student.get(req.params.username);
     return res.json({ student });
   } catch (error) {
     return next(error);
@@ -32,18 +33,18 @@ router.get('/:id', async (req, res, next) => {
 
 /** PATCH /:id => {student} */
 
-router.patch('/:id', async (req, res, next) => {
+router.patch('/:username', ensureCorrectUser, async (req, res, next) => {
   try {
     // throw error if attempting to change id
-    if ('id' in req.body || 'avatar' in req.body) {
+    if ('id' in req.body || 'username' in req.body || 'avatar' in req.body) {
       return next(
         new APIError(
           400,
-          'You are not allowed to change the id or avatar properties.'
+          'You are not allowed to change the id, username or avatar properties.'
         )
       );
     }
-    const student = await Student.update(req.params.id, req.body);
+    const student = await Student.update(req.params.username, req.body);
     return res.json({ student });
   } catch (error) {
     return next(error);

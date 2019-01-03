@@ -9,7 +9,6 @@ function createToken(student) {
   let payload = {
     username: student.username
   };
-
   return jwt.sign(payload, SECRET);
 }
 

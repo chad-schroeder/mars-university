@@ -59,7 +59,7 @@ class Student {
 
   /** find a student by id. */
 
-  static async get(id) {
+  static async get(username) {
     const result = await db.query(
       `SELECT s.id,
           first_name as "first name", 
@@ -68,13 +68,13 @@ class Student {
           sp.name AS "species"
         FROM students s
         JOIN species sp ON s.species_id = sp.id
-        WHERE s.id=$1`,
-      [id]
+        WHERE s.username = $1`,
+      [username]
     );
 
     // if no student found...
     if (!result.rows.length) {
-      const err = new Error(`No student found with id: ${id}`);
+      const err = new Error(`No student found with username: ${username}`);
       err.status = 404;
       throw err;
     }
@@ -85,7 +85,9 @@ class Student {
 
   /** update a student by id. */
 
-  static async update(id, data) {
+  static async update(username, data) {
+    console.log(data);
+
     if (data.password) {
       // create a hashed password if password changed
       data.password = await bcrypt.hash(data.password, BCRYPT_WORK_ROUNDS);
@@ -93,11 +95,11 @@ class Student {
 
     const result = await db.query(
       `UPDATE students 
-        SET password=$2, first_name=$3, middle_name=$4, last_name=$5, species_id=$6
-        WHERE id=$1
-        RETURNING id, first_name, middle_name, last_name, species_id`,
+        SET password = $2, first_name = $3, middle_name = $4, last_name = $5, species_id = $6
+        WHERE username = $1
+        RETURNING id, username, first_name, middle_name, last_name, species_id`,
       [
-        id,
+        username,
         data.password,
         data.first_name,
         data.middle_name,
@@ -109,7 +111,7 @@ class Student {
     const user = result.rows[0];
 
     if (!user) {
-      let notFound = new Error(`No student found for ${id}`);
+      let notFound = new Error(`No student found with username: ${username}`);
       notFound.status = 404;
       throw notFound;
     }
