@@ -15,7 +15,7 @@ class Faculty {
   /** Get all faculty members. */
 
   static async all() {
-    let results = await db.query(`SELECT * FROM faculty ORDER BY first_name`);
+    let results = await db.query(`SELECT * FROM faculty`);
     return results.rows;
   }
 

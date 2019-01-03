@@ -32,6 +32,7 @@ const DDL = `
     first_name text NOT NULL,
     middle_name text DEFAULT NULL,
     last_name text DEFAULT NULL,
+    department text NOT NULL,
     species_id integer DEFAULT 1 REFERENCES species (id),
     avatar text DEFAULT null
   );
@@ -67,25 +68,25 @@ const DDL = `
   INSERT INTO species (id, name) VALUES (9, 'Omicronian');
   INSERT INTO species (id, name) VALUES (10, 'Nibblonian');
 
-  INSERT INTO faculty (first_name, middle_name, last_name, species_id, avatar) 
-    VALUES ('Turanga', null, 'Leela', 2, 'leela'),
-            ('John', 'A.', 'Zoidberg', 4, 'zoidberg'),
-            ('Zapp', null, 'Brannigan', 1, 'zapp'),
-            ('Ogden', null, 'Wernstrom', 1, 'wernstrom'),
-            ('William', null, 'Shatner', 1, 'shatner'),
-            ('Leonard', null, 'Nimoy', 1, 'nimoy'),
-            ('Beelzebot', null, null, 3, 'beelzebot'),
-            ('Richard', 'M.', 'Nixon', 1, 'nixon'),
-            ('Lrrr', null, null, 9, 'lrrr'),
-            ('Hubert', 'J.', 'Farnsworth', 1, 'farnsworth'),
-            ('Calculon', null, null, 3, 'calculon'),
-            ('Hedonismbot', null, null, 3, 'hedonismbot'),
-            ('Bender', 'Bending', 'Rodriguez', 3, 'bender'),
-            ('Hermes', null, 'Conrad', 1, 'hermes'),
-            ('Al', null, 'Gore', 1, 'gore'),
-            ('Hypnotoad', null, null, 7, 'hypnotoad'),
-            ('Mom', null, null, 1, 'mom'),
-            ('URL', null, null, 3, 'url');
+  INSERT INTO faculty (first_name, middle_name, last_name, department, species_id, avatar) 
+    VALUES ('Turanga', null, 'Leela', 'President', 2, 'leela'),
+            ('John', 'A.', 'Zoidberg', 'Sciences', 4, 'zoidberg'),
+            ('Zapp', null, 'Brannigan', 'Criminal Justice', 1, 'zapp'),
+            ('Ogden', null, 'Wernstrom', 'Sciences', 1, 'wernstrom'),
+            ('William', null, 'Shatner', 'Arts', 1, 'shatner'),
+            ('Leonard', null, 'Nimoy', 'Arts', 1, 'nimoy'),
+            ('Beelzebot', null, null, 'Sciences', 3, 'beelzebot'),
+            ('Richard', 'M.', 'Nixon', 'Politics', 1, 'nixon'),
+            ('Lrrr', null, null, 'Politics', 9, 'lrrr'),
+            ('Hubert', 'J.', 'Farnsworth', 'Sciences', 1, 'farnsworth'),
+            ('Calculon', null, null, 'Arts', 3, 'calculon'),
+            ('Hedonismbot', null, null, 'Robotics', 3, 'hedonismbot'),
+            ('Bender', 'Bending', 'Rodriguez', 'Robotics', 3, 'bender'),
+            ('Hermes', null, 'Conrad', 'Business', 1, 'hermes'),
+            ('Al', null, 'Gore', 'Sciences', 1, 'gore'),
+            ('Hypnotoad', null, null, 'Supporting Staff', 7, 'hypnotoad'),
+            ('Mom', null, null, 'Business', 1, 'mom'),
+            ('URL', null, null, 'Criminal Justice', 3, 'url');
 
   INSERT INTO sections (code, name) VALUES ('polit', 'politics');
   INSERT INTO sections (code, name) VALUES ('histo', 'history');
