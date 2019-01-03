@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 app.use(express.json());
+app.use(express.static('public'));
 app.use(morgan('tiny'));
 
 nunjucks.configure('templates', {

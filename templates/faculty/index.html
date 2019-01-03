@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Faculty
+{% endblock %}
+
+{% block content %}
+  <h1>Faculty</h1>
+
+  {% if faculty %}
+  <div>
+    {% for member in faculty %} 
+      <div class="media">
+        <img src="/images/avatars/{{ member.avatar }}.png" class="mr-3" width="128" alt="Avatar for {{ member.avatar }}">
+        <div class="media-body">
+          <h5 class="mt-0">{{ member.first_name}} {{ member.last_name }}</h5>
+          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <p>There doesn't seem to be any faculty?!</p>
+  {% endif %}
+
+{% endblock %}

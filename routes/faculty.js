@@ -10,7 +10,8 @@ const router = new Router();
 router.get('/', async (req, res, next) => {
   try {
     let faculty = await Faculty.all();
-    return res.json({ faculty });
+    console.log(faculty);
+    return res.render('../templates/faculty/index.html', { faculty });
   } catch (error) {
     return next(error);
   }
