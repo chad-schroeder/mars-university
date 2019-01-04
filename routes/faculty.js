@@ -18,9 +18,9 @@ router.get('/', async (req, res, next) => {
 
 /** GET /:id => { faculty } */
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:username', async (req, res, next) => {
   try {
-    const faculty = await Faculty.get(req.params.id);
+    const faculty = await Faculty.get(req.params.username);
     return res.json({ faculty });
   } catch (error) {
     return next(error);

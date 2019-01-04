@@ -30,6 +30,7 @@ const DDL = `
 
   CREATE TABLE faculty(
     id serial PRIMARY KEY,
+    username text NOT NULL UNIQUE,
     first_name text NOT NULL,
     middle_name text DEFAULT NULL,
     last_name text DEFAULT NULL,
@@ -69,31 +70,31 @@ const DDL = `
   INSERT INTO species (id, name) VALUES (9, 'Omicronian');
   INSERT INTO species (id, name) VALUES (10, 'Nibblonian');
 
-  INSERT INTO faculty (first_name, middle_name, last_name, department, species_id, avatar) 
-    VALUES ('Grand Priestess', null, null, 'President', 8, 'grand'),
-            ('Inez', '', 'Wong', 'Board of Directors', 1, 'inez'),
-            ('Leo', '', 'Wong', 'Board of Directors', 1, 'leo'),
-            ('Robot Elder', null, null, 'Board of Directors', 3, 'elder'),
-            ('Countess', 'de la', 'Roca', 'Board of Directors', 3, 'countess'),
-            ('Scruffy', null, null, 'Support Staff', 0, 'scruffy'),
-            ('Hypnotoad', null, null, 'Support Staff', 7, 'hypnotoad'),
-            ('John', 'A.', 'Zoidberg', 'Sciences', 4, 'zoidberg'),
-            ('Zapp', null, 'Brannigan', 'Criminal Justice', 1, 'zapp'),
-            ('Ogden', null, 'Wernstrom', 'Sciences', 1, 'wernstrom'),
-            ('William', null, 'Shatner', 'Arts', 1, 'shatner'),
-            ('Leonard', null, 'Nimoy', 'Arts', 1, 'nimoy'),
-            ('Beelzebot', null, null, 'Sciences', 3, 'beelzebot'),
-            ('Richard', 'M.', 'Nixon', 'Politics', 1, 'nixon'),
-            ('Lrrr', null, null, 'Politics', 9, 'lrrr'),
-            ('Hubert', 'J.', 'Farnsworth', 'Sciences', 1, 'farnsworth'),
-            ('Calculon', null, null, 'Arts', 3, 'calculon'),
-            ('iZac', null, null, 'Arts', 3, 'izac'),
-            ('Hedonismbot', null, null, 'Robotics', 3, 'hedonismbot'),
-            ('Bender', 'Bending', 'Rodriguez', 'Robotics', 3, 'bender'),
-            ('Hermes', null, 'Conrad', 'Business', 1, 'hermes'),
-            ('Al', null, 'Gore', 'Sciences', 1, 'gore'),
-            ('Mom', null, null, 'Business', 1, 'mom'),
-            ('URL', null, null, 'Criminal Justice', 3, 'url');
+  INSERT INTO faculty (username, first_name, middle_name, last_name, department, species_id, avatar) 
+    VALUES ('grand priestess', 'Grand Priestess', null, null, 'President', 8, 'grand'),
+            ('inez', 'Inez', '', 'Wong', 'Board of Directors', 1, 'inez'),
+            ('leo', 'Leo', '', 'Wong', 'Board of Directors', 1, 'leo'),
+            ('robot elder', 'Robot Elder', null, null, 'Board of Directors', 3, 'elder'),
+            ('countess', 'Countess', 'de la', 'Roca', 'Board of Directors', 3, 'countess'),
+            ('scruffy', 'Scruffy', null, null, 'Support Staff', 0, 'scruffy'),
+            ('hypnotoad', 'Hypnotoad', null, null, 'Support Staff', 7, 'hypnotoad'),
+            ('farnsworth', 'Hubert', 'J.', 'Farnsworth', 'Sciences', 1, 'farnsworth'),
+            ('bender', 'Bender', 'Bending', 'Rodriguez', 'Robotics', 3, 'bender'),
+            ('zoidberg', 'John', 'A.', 'Zoidberg', 'Sciences', 4, 'zoidberg'),
+            ('hermes', 'Hermes', null, 'Conrad', 'Business', 1, 'hermes'),
+            ('calculon', 'Calculon', null, null, 'Arts', 3, 'calculon'),
+            ('zapp', 'Zapp', null, 'Brannigan', 'Criminal Justice', 1, 'zapp'),
+            ('wernstrom', 'Ogden', null, 'Wernstrom', 'Sciences', 1, 'wernstrom'),
+            ('shatner', 'William', null, 'Shatner', 'Arts', 1, 'shatner'),
+            ('nimoy', 'Leonard', null, 'Nimoy', 'Arts', 1, 'nimoy'),
+            ('beelzebot', 'Beelzebot', null, null, 'Sciences', 3, 'beelzebot'),
+            ('nixon', 'Richard', 'M.', 'Nixon', 'Politics', 1, 'nixon'),
+            ('lrrr', 'Lrrr', null, null, 'Politics', 9, 'lrrr'),
+            ('izac', 'iZac', null, null, 'Arts', 3, 'izac'),
+            ('hedonismbot', 'Hedonismbot', null, null, 'Robotics', 3, 'hedonismbot'),
+            ('gore', 'Al', null, 'Gore', 'Sciences', 1, 'gore'),
+            ('mom', 'Mom', null, null, 'Business', 1, 'mom'),
+            ('url', 'URL', null, null, 'Criminal Justice', 3, 'url');
 
   INSERT INTO sections (code, name) VALUES ('polit', 'politics');
   INSERT INTO sections (code, name) VALUES ('histo', 'history');

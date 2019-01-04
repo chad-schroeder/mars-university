@@ -21,8 +21,10 @@ class Faculty {
 
   /** Find a faculty member. */
 
-  static async get(id) {
-    const result = await db.query(`SELECT * FROM faculty WHERE id=$1`, [id]);
+  static async get(username) {
+    const result = await db.query(`SELECT * FROM faculty WHERE username = $1`, [
+      username
+    ]);
     return result.rows[0];
   }
 }
