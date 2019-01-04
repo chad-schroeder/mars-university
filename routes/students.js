@@ -4,7 +4,7 @@ const Router = require('express').Router;
 const APIError = require('../helpers/APIError');
 // const createToken = require('../helpers/createToken');
 const Student = require('../models/student');
-const { ensureCorrectUser } = require('../middleware/auth');
+const { authRequired, ensureCorrectUser } = require('../middleware/auth');
 
 const router = new Router();
 

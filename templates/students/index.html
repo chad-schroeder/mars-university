@@ -9,16 +9,21 @@
 <h1>Students</h1>
 
 {% if students %}
-  <div class="d-flex flex-wrap">
+  <div class="row">
     {% for student in students %}
-    <div class="media" style="margin: 20px; width: calc(25% - 40px);">
-        <img src="/images/avatars/{{ student.avatar }}.png" class="mr-3" width="90" alt="Avatar for {{ student.avatar }}">
-        <div class="media-body">
-          <h5 class="m-0">{{ student.first_name}} {{ student.last_name }}</h5>
-          <p class="lead">{{ student.species }}</p>
-          Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+    <div class="col-12 col-lg-3">
+
+        <div class="media mb-5">
+            <img src="/images/avatars/{{ student.avatar }}.png" class="mr-3" width="90" alt="Avatar for {{ student.avatar }}">
+            <div class="media-body">
+              <h5 class="m-0">{{ student.first_name}} {{ student.last_name }}</h5>
+              <p class="lead">{{ student.species }}</p>
+              Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+            </div>
         </div>
+
     </div>
+
     {% endfor %}
   </div>
 {% else %}
